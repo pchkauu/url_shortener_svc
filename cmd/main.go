@@ -33,13 +33,13 @@ func main() {
 		os.Exit(1)
 	}
 
-	url, err := storage.GetURL("google123")
+	err = storage.DeleteURL("google")
 	if err != nil {
 		log.Error("failed to get url", sl.Err(err))
 		os.Exit(1)
 	}
 
-	log.Info("saved url", slog.String("url", url))
+	log.Info("delete url successful")
 }
 
 func setupLogger(env string) (*slog.Logger, error) {
