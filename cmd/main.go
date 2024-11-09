@@ -33,9 +33,9 @@ func main() {
 		os.Exit(1)
 	}
 
-	url, err := storage.GetURL("google")
+	url, err := storage.GetURL("google123")
 	if err != nil {
-		log.Error("failed to save url", sl.Err(err))
+		log.Error("failed to get url", sl.Err(err))
 		os.Exit(1)
 	}
 

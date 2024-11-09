@@ -73,17 +73,15 @@ func (s *Storage) GetURL(alias string) (string, error) {
 
 	stmt, err := s.db.Prepare("SELECT url.URL from url WHERE url.alias == ?")
 	if err != nil {
-		var sqliteErr sqlite3.Error
-		if errors.As(err, &sqliteErr) && errors.Is(sqliteErr.ExtendedCode, sqlite3.ErrNotFound) {
-			return "", fmt.Errorf("%s: %w", op, storage.ErrURLNotFound)
-		}
-
 		return "", fmt.Errorf("%s: %w", op, err)
 	}
 
 	var url string
 
 	err = stmt.QueryRow(alias).Scan(&url)
+	if errors.Is(err, sql.ErrNoRows) {
+		return "", storage.ErrURLNotFound
+	}
 	if err != nil {
 		return "", fmt.Errorf("%s: %w", op, err)
 	}
